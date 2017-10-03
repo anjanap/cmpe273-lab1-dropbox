@@ -1,0 +1,22 @@
+{
+  "name": "Dropbox",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.4",
+    "debug": "~2.6.3",
+    "ejs": "*",
+    "express": "~4.15.2",
+    "express-error-handler": "^1.1.0",
+    "express-favicon": "^2.0.0",
+    "express-routing": "*",
+    "favicon": "0.0.2",
+    "morgan": "*",
+    "serve-favicon": "*"
+  }
+}
