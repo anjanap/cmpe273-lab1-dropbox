@@ -9,7 +9,8 @@ class Login extends Component {
   state={
     username:'',
     password:'',
-    islogged:''
+    islogged:'',
+    user:''
   };
 
 handleSubmit = (x) => {
@@ -20,8 +21,8 @@ handleSubmit = (x) => {
               this.setState({islogged: 'false' });
                 console.log("Wrong login: "+this.state.islogged);
             } else {
-              this.setState({islogged: 'true' });
-                console.log("Success login= "+this.state.islogged);
+              this.setState({islogged: 'true', user: output[0]});
+                console.log("Success login= "+this.state.user.firstName);
                 //this.context.history.push("/home");
             }
         });
@@ -31,12 +32,13 @@ handleSubmit = (x) => {
     this.setState({username:'',password:'',islogged:'false'});
   }
 
+
   render() {
     return (
       <div className="container">
       <h1>Dropbox</h1>
-      {this.state.islogged==='false' ? (
-        <div>
+      {this.state.islogged==='false' ?
+        (<div>
         <h1>SIGN IN</h1>
         <form>
         Username: <input type="text" onChange={(event)=>{
@@ -46,9 +48,7 @@ handleSubmit = (x) => {
         <button type="button" onClick={() => this.handleSubmit(this.state)}>Submit</button><br/>
         </form>
         <h1>SIGN UP</h1><Signup /></div>
-      ):(<Home un={this.state.username}/>)}
-
-    <Route path="/home" component={Home}/>
+      ):(<Home un={this.state.user}/>)}
 
       </div>
     );

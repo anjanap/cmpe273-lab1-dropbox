@@ -36,6 +36,20 @@ export const checklogin = (payload) =>
         return res.output;
     })
         .catch(error => {
-            console.log("This is error");
+            console.log("This is login error");
             return error;
         });
+
+export const add = (payload) =>
+            fetch(`${api}/addfile/add`, {
+                method: 'POST',
+                body: payload
+            }).then(res=>res.json())
+            .then(res => {
+              console.log("Upload status: "+res.status);
+                return res.upl;
+            })
+                .catch(error => {
+                    console.log("This is upload error");
+                    return error;
+                });

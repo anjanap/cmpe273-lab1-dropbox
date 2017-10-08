@@ -2,6 +2,7 @@ var express=require('express');
 var router=express.Router();
 var mysql=require('mysql');
 var mysqlDB=require('./mysqlDB');
+var mkdirp = require('mkdirp');
 
 router.post('/signup',function(req,res){
 	var con=mysqlDB.getConnection();
@@ -19,6 +20,10 @@ router.post('/signup',function(req,res){
 				res.status(201).json({output:0});//throw err;
 			}
 			else{
+				/*mkdirp(('./file_uploads/'+first+last), function (err) {
+				    if (err) console.error(err)
+				    else console.log('dir created')
+				});*/
 				res.status(201).json({output:1});
 			}
 		});

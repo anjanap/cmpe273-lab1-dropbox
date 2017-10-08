@@ -3,7 +3,6 @@ var router=express.Router();
 var mysql=require('mysql');
 var mysqlDB=require('./mysqlDB');
 
-
 function fetchData(callback,sqlQuery){
 	var con=mysqlDB.getConnection();
 	con.query(sqlQuery, function(err, rows, fields) {
@@ -31,6 +30,11 @@ router.post('/checklogin',function(req,res){
 		else 
 		{
 			if(results.length > 0){
+				ssn=req.session;
+				ssn.uid=results[0].userID;
+				ssn.firstname=results[0].firstName;
+				ssn.lastname=results[0].lastName;
+				console.log("sess: "+ssn.lastname);
 				console.log("Results: "+results);
 				res.status(201).json({output:results});
 			}
