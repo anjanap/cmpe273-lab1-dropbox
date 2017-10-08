@@ -16,27 +16,23 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({storage:storage});
-//var session;
+
 router.post('/add', upload.single('myfile'), function (req, res, next) {
 	var con=mysqlDB.getConnection();
 	var uid=req.body.uid;
 	var fname=req.file.filename;
-	console.log("Fname"+fname);
-    console.log("API request: "+req.body.uid);
-    //console.log(req.uid);
-    var insertFile="insert into file_details(userID,fileName) values('"+uid+"','"+fname+"');";
-
+    var insertFile="insert into file_details(userID,fileName,starred) values('"+uid+"','"+fname+"',0);";
+    var actUpdate="insert into user_activity(userID,status) values('"+uid+"','"+fname+" uploaded');";
 	con.query(insertFile,function(err,result){
 		if(err){
 			res.status(201).json({upl:0});//throw err;
 		}
 		else{
 			console.log(req.file);
+			con.query(actUpdate);
 			res.status(201).json({upl:1});
 		}
-	});
-    
-    
+	});  
     console.log(req.file);
 });
 

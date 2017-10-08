@@ -3,6 +3,8 @@ var express = require('express')
   , login = require('./routes/login')
   , signup = require('./routes/signup')
   , addfile = require('./routes/addfile')
+  , listall = require('./routes/listall')
+  , activity = require('./routes/activity')
   , http = require('http')
   , path = require('path');
 var cors = require('cors');
@@ -36,6 +38,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/login',login);
 app.use('/signup',signup);
 app.use('/addfile',addfile);
+app.use('/listall',listall);
+app.use('/starred',listall);
+app.use('/starupdate',listall);
+app.use('/activityrep',activity);
 // development only
 /*if ('development' == app.get('env')) {
   app.use(express.errorHandler());
@@ -54,13 +60,9 @@ app.use(function (req, res, next) {
 });
 
 app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-
     console.log(err);
-
-    // render the error page
     res.status(err.status || 500);
     res.json('error');
 });

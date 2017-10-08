@@ -1,0 +1,65 @@
+import React, { Component } from 'react';
+import Order from './Order';
+
+class Menu extends Component {
+  state = {
+  foodMenu:[{id:0,name:'Burger',price:3.99,quantity:0},
+            {id:1,name:'Pizza',price:4.99,quantity:0},
+            {id:2,name:'Pasta',price:5.99,quantity:0}],
+  totalCost:0
+};
+setOrder= (val) => {
+ var arr=this.state.foodMenu;
+ for(var i=0;i<arr.length;i++)
+ {
+   if(i===val.id)
+   arr[val.id].quantity++;
+ }
+this.setState({foodMenu:arr})
+this.setState({totalCost:this.state.totalCost+arr[val.id].price})
+};
+deleteOrder= (val) => {
+ var arr=this.state.foodMenu;
+ for(var i=0;i<arr.length;i++)
+ {
+   if(i===val.id)
+   arr[val.id].quantity--;
+ }
+this.setState({foodMenu:arr})
+this.setState({totalCost:this.state.totalCost-arr[val.id].price})
+};
+
+  render() {
+    return (
+      <div>
+        <h1>Menu</h1>
+        {
+          this.state.foodMenu.map(item=>{
+            return(
+              <div key={item.id}>
+            <p>{item.name}:{item.price}<button onClick={()=>{
+              this.setOrder(item);
+            }}>+</button></p>
+            </div>
+        );})
+        }
+        <h1>Order</h1>
+        {
+          this.state.foodMenu.map(item=>{
+            return(
+              <div key={item.name}>
+              {item.quantity>0?(
+                <p>{item.name}:{item.price}:{item.quantity}<button onClick={()=>{
+                  this.deleteOrder(item);}}>-</button></p>
+              ): ''}
+
+            </div>
+        );})
+        }
+        <h3>TOTAL: ${this.state.totalCost}</h3>
+      </div>
+    );
+  }
+}
+export default Menu;
+  // Learn 'Currying' in functional programming
