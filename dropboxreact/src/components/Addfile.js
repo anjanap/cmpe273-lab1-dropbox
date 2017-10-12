@@ -4,8 +4,23 @@ import { Route, withRouter, Link } from 'react-router-dom';
 
 class Addfile extends Component {
   state={
-    filenew:''
+    filenew:'',
+    folders:[],
+    fid:''
   };
+
+  componentWillMount(){
+    var x={uid:this.props.data.userID};
+          API.listfolder(x)
+              .then((data) => {
+                  if (data.length > 0) {
+                    this.setState({folders: data});
+                      console.log("Folders listed: "+ this.state.folders[1]);
+                  } else {
+                      console.log("Folders not listed");
+                  }
+              });
+  }
 
 handleUpload = (event) => {
   console.log("Addfile data: "+this.props.data.firstName+this.props.data.lastName);
@@ -25,26 +40,27 @@ handleUpload = (event) => {
             }
         });
 };
-/*  constructor(props){
-  super(props);
-  this.state={
-             filesToBeSent:[],
-    }
-}
-onDrop(acceptedFiles, rejectedFiles) {
-    // console.log('Accepted files: ', acceptedFiles[0].name);
-    var filesToBeSent=this.state.filesToBeSent;
-    filesToBeSent.push(acceptedFiles);
-    this.setState({filesToBeSent});
-}
-<Dropzone onDrop={(files) => this.onDrop(files)}>
-      <div>Try dropping some files here, or click to select files to upload.</div>
-</Dropzone>*/
+
+folderFile = (event) => {
+  console.log("FOLDERID: "+this.state.fid);
+};
+
     render() {
         return (
           <div>
           <h3>Add file</h3>
           <input id="newfile" type="file" name="newfile" onChange={this.handleUpload}/>
+
+
+          <h2>Add Files to Folders</h2>
+          {this.state.folders.map(f => {
+          return ( <div key={f.folderName}>{f.folderName}
+            <input id="newfile" type="file" name="newfile" onChange={this.folderFile()}/></div>
+                 )
+          })
+          }
+
+
          </div>
         );
     }

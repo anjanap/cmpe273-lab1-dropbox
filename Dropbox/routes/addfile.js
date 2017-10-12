@@ -21,7 +21,7 @@ router.post('/add', upload.single('myfile'), function (req, res, next) {
 	var con=mysqlDB.getConnection();
 	var uid=req.body.uid;
 	var fname=req.file.filename;
-    var insertFile="insert into file_details(userID,fileName,starred) values('"+uid+"','"+fname+"',0);";
+    var insertFile="insert into file_details(userID,fileName,starred,mainFolder) values('"+uid+"','"+fname+"',0,1);";
     var actUpdate="insert into user_activity(userID,status) values('"+uid+"','"+fname+" uploaded');";
 	con.query(insertFile,function(err,result){
 		if(err){

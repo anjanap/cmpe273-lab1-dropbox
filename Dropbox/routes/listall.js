@@ -43,9 +43,59 @@ router.post('/list',function(req,res){
 	},listQuery);
 	});
 
+
+
+
+router.post('/fileCont',function(req,res){
+	var fid=req.body.fid;
+	console.log("FILE ID: "+fid);
+	var listQuery="select * from folder_details where folderID='"+fid+"';";
+	fetchFiles(function(err,results){
+		if(err){
+			throw err;
+		}
+		else 
+		{
+			if(results.length > 0){
+				console.log("Query Results: "+results);
+				res.status(201).json({data:results});
+			}
+			else {
+				console.log("Results: No data");
+				res.status(201).json({data:0});
+			}
+		}
+	},listQuery);
+	});
+
+
+
+router.post('/listfolder',function(req,res){
+	var uid=req.body.uid;
+	console.log("UID list: "+uid);
+	var listQuery="select * from folder_details where userID="+uid+";";
+	fetchFiles(function(err,results){
+		if(err){
+			throw err;
+		}
+		else 
+		{
+			if(results.length > 0){
+				console.log("Query Results: "+results);
+				res.status(201).json({data:results});
+			}
+			else {
+				console.log("Results: No data");
+				res.status(201).json({data:0});
+			}
+		}
+	},listQuery);
+	});
+
+
+
 router.post('/starred',function(req,res){
 	var uid=req.body.uid;
-	console.log("***: "+uid);
 	var listQuery="select fileName from file_details where userID="+uid+" and starred=1;";
 	fetchFiles(function(err,results){
 		if(err){
@@ -83,5 +133,30 @@ router.post('/starupdate', function (req, res, next) {
 		}
 	});  
 });
+
+
+router.post('/addfolder',function(req,res){
+	var con=mysqlDB.getConnection();
+	var uid=req.body.uid;
+	var newf=req.body.newf;
+	console.log("Folder: "+newf);
+	console.log("Folder uid: "+uid);
+	con.connect(function(err){
+		if(err)
+		throw err;
+		
+		var insertQuery="insert into folder_details(folderName,userID) values('"+newf+"',"+uid+");";
+		con.query(insertQuery,function(err,result){
+			if(err){
+				res.status(201).json({output:0});
+			}
+			else{
+				res.status(201).json({output:1});
+			}
+		});
+		});
+	});
+
+
 
 module.exports=router;

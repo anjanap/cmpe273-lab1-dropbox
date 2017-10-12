@@ -4,8 +4,8 @@ var mysql=require('mysql');
 var mysqlDB=require('./mysqlDB');
 
 function fetchData(callback,sqlQuery){
-	var con=mysqlDB.getConnection();
-	con.query(sqlQuery, function(err, rows, fields) {
+	var pool=mysqlDB.getConnectionP();
+	/*con.query(sqlQuery, function(err, rows, fields) {
 		if(err){
 			console.log("ERROR: " + err.message);
 		}
@@ -16,7 +16,32 @@ function fetchData(callback,sqlQuery){
 		}
 	});
 	console.log("\nConnection closed..");
-	con.end();
+	con.end();*/
+	
+	pool.getConnection(function(err,connection){
+        if (err) {
+          connection.release();
+          res.json({"code" : 100, "status" : "Error in connection database"});
+          return;
+        }   
+        else{
+        console.log('connected as id ' + connection.threadId);
+
+        connection.query(sqlQuery,function(err,rows){
+            connection.release();
+            if(!err) {
+    			console.log("DB Results:"+rows);
+    			callback(err, rows);
+            }           
+        });
+
+        connection.on('error', function(err) {      
+              res.json({"code" : 100, "status" : "Error in connection database"});
+              return;     
+        });
+	}
+  });
+	
 }
 
 router.post('/checklogin',function(req,res){
@@ -47,3 +72,31 @@ router.post('/checklogin',function(req,res){
 	});
 
 module.exports=router;
+
+
+/*
+ 
+ 	mysqlDB.pool.getConnection(function(err,connection){
+        if (err) {
+          connection.release();
+          res.json({"code" : 100, "status" : "Error in connection database"});
+          return;
+        }   
+
+        console.log('connected as id ' + connection.threadId);
+
+        connection.query(sqlQuery,function(err,results){
+            connection.release();
+            if(!err) {
+            	if(results.length > 0){
+    				console.log("Results: "+results);
+    				res.status(201).json({output:results});
+    			}
+    			else {
+    				console.log("Results: Wrong login");
+    				res.status(201).json({output:0});
+    			}
+            }           
+        });})
+ 
+ */

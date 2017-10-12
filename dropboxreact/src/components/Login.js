@@ -10,26 +10,39 @@ class Login extends Component {
     username:'',
     password:'',
     islogged:'',
-    user:''
+    user:'',
+    message:''
   };
 
-handleSubmit = (x) => {
+handleLogin = (x) => {
   console.log(x.username);
     API.checklogin(x)
         .then((output) => {
             if (output === 0) {
-              this.setState({islogged: 'false' });
+              this.setState({islogged: 'false', message:"Invalid credentials. Login again." });
                 console.log("Wrong login: "+this.state.islogged);
             } else {
               this.setState({islogged: 'true', user: output[0]});
                 console.log("Success login= "+this.state.user.firstName);
-                //this.context.history.push("/home");
             }
         });
 };
 
+handleLogout = () => {
+      console.log('logout called');
+      this.props.history.push("/");
+      API.logout()
+          .then((status) => {
+              if(status === 200){
+                  this.setState({
+                      islogged: false
+                  });
+              }
+          });
+  };
+
   componentWillMount(){
-    this.setState({username:'',password:'',islogged:'false'});
+    this.setState({username:'',password:'',islogged:'false',message:''});
   }
 
 
@@ -45,10 +58,11 @@ handleSubmit = (x) => {
                                       this.setState({username: event.target.value});}}/><br/>
         Password: <input type="password" onChange={(event)=>{
                                       this.setState({password: event.target.value});}}/><br/>
-        <button type="button" onClick={() => this.handleSubmit(this.state)}>Submit</button><br/>
+        <button type="button" onClick={() => this.handleLogin(this.state)}>Submit</button><br/>
+        <font color="red">{this.state.message}</font>
         </form>
         <h1>SIGN UP</h1><Signup /></div>
-      ):(<Home un={this.state.user}/>)}
+      ):(<Home un={this.state.user} handleLogout={this.handleLogout} />)}
 
       </div>
     );
