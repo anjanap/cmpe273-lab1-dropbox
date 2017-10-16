@@ -7,52 +7,48 @@ var express = require('express')
   , activity = require('./routes/activity')
   , http = require('http')
   , path = require('path');
+var crypto = require('crypto');
 var cors = require('cors');
 var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var download=require('download');
 
-
-/*
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');*/
 var bodyParser = require('body-parser');
 
 var app = express();
 app.use(cors());
-app.use(session({secret: 'ssshhhhh'}));
+app.use(cookieParser());
+app.use(session({secret: "secretkey"}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-sess='';
-// all environments
-//app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-//app.use(express.favicon());
-//app.use(express.logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-//app.use(express.methodOverride());
-//app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 //app.use('/',index);
 app.use('/login',login);
+app.use('/logout',login);
 app.use('/signup',signup);
 app.use('/addfile',addfile);
+app.use('/folderfile',addfile);
 app.use('/listall',listall);
 app.use('/starred',listall);
 app.use('/starupdate',listall);
 app.use('/activityrep',activity);
-// development only
-/*if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
+app.use('/addfolder',listall);
+app.use('/listfolder',listall);
+app.use('/fileCont',listall);
 
-app.get('/', routes.index);
-app.post('/calculate', calculate.calculate);
+app.get('/download/*',function(req,res){
+	var f=req.params[0];
+	console.log("filename: "+f)
+	var path='./file_uploads/'+f;
+	console.log("filename path: "+path)
+	return res.download(path);
+	});
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});*/
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;

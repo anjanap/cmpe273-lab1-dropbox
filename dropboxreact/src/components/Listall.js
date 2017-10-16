@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import * as API from '../api/API';
-import { Route, withRouter, Link } from 'react-router-dom';
-import {ReactDomServer} from 'react-dom/server';
+import {withRouter} from 'react-router-dom';
 
 class Listall extends Component {
 
@@ -45,38 +44,13 @@ class Listall extends Component {
           });
   };
 
-  handleNewfolder = (f) => {
-    console.log(f.newFolder);
-    var x={uid:this.props.data.userID, newf:f.newFolder};
-      API.addfolder(x)
-          .then((output) => {
-              if (output === 0) {
-                  console.log("Folder created");
-              } else {
-                this.setState({islogged: 'true', user: output[0]});
-                  console.log("Folder not created");
-              }
-          });
-  };
-
-  /*
-  this.state.files.map(f => {
-       return ( <div key={f.fileName}><a href={"http://localhost:3001/download/"+(f.fileName)}>{f.fileName}</a>
-                {f.starred===0 ? (<button onClick={()=> this.updateStarred(f.fileID,f.starred)} style={{backgroundColor:this.state.bgColor1}}>*</button>):
-                (<button onClick={()=> this.updateStarred(f.fileID,f.starred)} style={{backgroundColor:this.state.bgColor2}}>*</button>)}
-                </div>
-              )
-
-  */
-
-//<button onClick={()=> this.handleDownload(f.fileName)}>D</button>
     render() {
         return (
           <div>
           <h2>All Files</h2>
           {this.state.files.map(f => {
             if(f.mainFolder===1){
-                 return ( <div key={f.fileName}><a href={"http://localhost:3001/download/"+(f.fileName)}>{f.fileName}</a>
+                 return ( <div key={Math.random()}><a href={"http://localhost:3001/download/"+(f.fileName)}>{(f.fileName).substring(14)}</a>
                           {f.starred===0 ? (<button onClick={()=> this.updateStarred(f.fileID,f.starred)} style={{backgroundColor:this.state.bgColor1}}>*</button>):
                           (<button onClick={()=> this.updateStarred(f.fileID,f.starred)} style={{backgroundColor:this.state.bgColor2}}>*</button>)}
                           </div>
@@ -90,7 +64,7 @@ class Listall extends Component {
 
        {this.state.files.map(f2 => {
          if(f2.folderID===f.folderID){
-     return ( <div key={f2.fileName}><a href={"http://localhost:3001/download/"+(f2.fileName)}>{f2.fileName}</a>
+     return ( <div key={Math.random()}><a href={"http://localhost:3001/download/"+(f2.fileName)}>{(f2.fileName).substring(14)}</a>
               {f2.starred===0 ? (<button onClick={()=> this.updateStarred(f2.fileID,f2.starred)} style={{backgroundColor:this.state.bgColor1}}>*</button>):
               (<button onClick={()=> this.updateStarred(f2.fileID,f2.starred)} style={{backgroundColor:this.state.bgColor2}}>*</button>)}
               </div>
@@ -104,14 +78,6 @@ class Listall extends Component {
             )
      })
      }
-
-
-     <p>Create new folder</p>
-     <form>
-     Folder Name: <input type="text" id="newfolder" onChange={(event)=>{
-                                   this.setState({newFolder: event.target.value});}}/><br/>
-     <button type="button" onClick={() => this.handleNewfolder(this.state)}>Submit</button>
-     </form>
             </div>
         );
     }

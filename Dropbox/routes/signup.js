@@ -2,6 +2,7 @@ var express=require('express');
 var router=express.Router();
 var mysql=require('mysql');
 var mysqlDB=require('./mysqlDB');
+var passwordEncry=require('./passwordEncry');
 var mkdirp = require('mkdirp');
 
 router.post('/signup',function(req,res){
@@ -20,11 +21,12 @@ router.post('/signup',function(req,res){
         }   
         else{
         console.log('connected as id ' + connection.threadId);
-
+        var salt = passwordEncry.randomstring(8);
+        var encrypwd = passwordEncry.sha512(pwd, salt);
         var insertQuery="insert into user_details(firstName,lastName,email,password) values('"+first+"','"+last+"','"+em+"','"+pwd+"');";
         connection.query(insertQuery,function(err,result){
 			if(err){
-				res.status(201).json({output:0});//throw err;
+				res.status(201).json({output:0});
 			}
 			else{
 				res.status(201).json({output:1});

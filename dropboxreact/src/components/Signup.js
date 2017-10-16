@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import * as API from '../api/API';
-import { Route} from 'react-router-dom';
+//import { Route} from 'react-router-dom';
 import ReactDOM from 'react-dom';
 
-class Home extends Component {
+class Signup extends Component {
   state={
     fname:'',
     lname:'',
@@ -36,22 +36,56 @@ class Home extends Component {
 
     render() {
         return (
-          <div>
+          <div className="container">
+
+          <div className="row">
           <form>
-          First Name: <input type="text" ref="fn" id="fname" onChange={(event)=>{
-                                        this.setState({fname: event.target.value});}} /><br/>
-          Last Name: <input type="text" ref="ln" id="lname" onChange={(event)=>{
-                                        this.setState({lname: event.target.value});}} /><br/>
-          Email: <input type="text" ref="em" id="email" onChange={(event)=>{
-                                        this.setState({email: event.target.value});}} /><br/>
-          Password: <input type="password" ref="pwd" id="pswd" onChange={(event)=>{
-                                        this.setState({password: event.target.value});}} /><br/>
+          <div className="form-group row">
+          <div className="col-sm-2 col-md-2 col-lg-2">First Name:</div>
+           <div className="col-sm-10 col-md-10 col-lg-10">
+           <input type="text" ref="fn" id="fname" onChange={(event)=>{
+                                        this.setState({fname: event.target.value});}} /></div>
+          </div>
+
+          <div className="form-group row">
+          <div className="col-sm-2 col-md-2 col-lg-2">Last Name:</div>
+           <div className="col-sm-10 col-md-10 col-lg-10">
+           <input type="text" ref="ln" id="lname" onChange={(event)=>{
+                                        this.setState({lname: event.target.value});}} /></div>
+          </div>
+
+          <div className="form-group row">
+          <div className="col-sm-2 col-md-2 col-lg-2">Email:</div>
+           <div className="col-sm-10 col-md-10 col-lg-10">
+           <input type="text" ref="em" id="email" onChange={(event)=>{
+                                        this.setState({email: event.target.value});}} /></div>
+          </div>
+
+          <div className="form-group row">
+          <div className="col-sm-2 col-md-2 col-lg-2">Password:</div>
+           <div className="col-sm-10 col-md-10 col-lg-10">
+           <input type="password" ref="pwd" id="pswd" onChange={(event)=>{
+                                        this.setState({password: event.target.value});}} /></div>
+          </div>
+
+          <div className="form-group row">
+          <div className="col-sm-4 col-md-4 col-lg-4">
           <button type="button" onClick={() => this.handleSubmit(this.state)}>Submit</button>
-          </form>
+          </div>
+          </div>
+
+          <div className="form-group row">
+          <div className="col-sm-4 col-md-4 col-lg-4">
           <font color="red">{this.state.status}</font>
+          </div>
+          </div>
+
+          </form>
+          </div>
+
           </div>
         );
     }
 }
 
-export default Home;
+export default Signup;

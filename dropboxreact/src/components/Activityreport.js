@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import * as API from '../api/API';
-import { Route, withRouter, Link } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 class Activityreport extends Component {
   state={actv:[]}
@@ -14,7 +14,10 @@ class Activityreport extends Component {
                   for(var z=0;z<data.length;z++)
                   {
                     var newArray = this.state.actv.slice();
-                    newArray.push(data[z].status);
+                    if((data[z].status).includes("File uploaded"))
+                      newArray.push((data[z].status).substring(14));
+                    else
+                      newArray.push(data[z].status);
                     this.setState({actv:newArray})
                   }
                 } else {
@@ -28,7 +31,7 @@ class Activityreport extends Component {
             <div>
             <h3>Activity Report</h3>
             {this.state.actv.map(act => {
-          return ( <div key={act}>
+          return ( <div key={Math.random()}>
                    {act}
                    </div>
                    )

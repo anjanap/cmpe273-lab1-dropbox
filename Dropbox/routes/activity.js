@@ -4,7 +4,34 @@ var mysql=require('mysql');
 var mysqlDB=require('./mysqlDB');
 
 function fetchAct(callback,listQuery){
-	var con=mysqlDB.getConnection();
+	var pool=mysqlDB.getConnectionP();
+	
+	pool.getConnection(function(err,connection){
+        if (err) {
+          connection.release();
+          res.json({"code" : 100, "status" : "Error in connection database"});
+          return;
+        }   
+        else{
+        console.log('connected as id ' + connection.threadId);
+
+        connection.query(listQuery,function(err,rows){
+            connection.release();
+            if(!err) {
+    			console.log("DB Results:"+rows);
+    			callback(err, rows);
+            }           
+        });
+
+        connection.on('error', function(err) {      
+              res.json({"code" : 100, "status" : "Error in connection database"});
+              return;     
+        });
+	}
+  });
+	
+	
+	/*var con=mysqlDB.getConnection();
 	console.log("QUERY: "+listQuery);
 	con.query(listQuery, function(err, rows, fields) {
 		if(err){
@@ -17,7 +44,7 @@ function fetchAct(callback,listQuery){
 		}
 	});
 	console.log("\nConnection closed..");
-	con.end();
+	con.end();*/
 }
 
 router.post('/activityrep',function(req,res){

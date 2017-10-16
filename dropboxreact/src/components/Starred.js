@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import * as API from '../api/API';
-import { Route, withRouter, Link } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 class Starred extends Component {
 
@@ -15,7 +15,7 @@ class Starred extends Component {
                 for(var z=0;z<data.length;z++)
                 {
                   var newArray = this.state.sfiles.slice();
-                  newArray.push(data[z].fileName);
+                  newArray.push((data[z].fileName).substring(14));
                   this.setState({sfiles:newArray})
                 }
               } else {
@@ -29,13 +29,13 @@ class Starred extends Component {
           <div>
           <h3>Starred Files</h3>
           {this.state.sfiles.map(f => {
-        return ( <div key={f}>
+        return ( <div key={Math.random()}>
                  {f}
                  </div>
                  )
       })
      }
-            </div>
+     </div>
         );
     }
 }

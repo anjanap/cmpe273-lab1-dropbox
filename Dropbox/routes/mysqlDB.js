@@ -14,7 +14,7 @@ function getConnection(){
 
 function getConnectionP(){
 	var pool=mysql.createPool({
-		connectionLimit : 50, //important
+		connectionLimit : 50, 
 		host     : 'localhost',
 		user     : 'root',
 		password:'12345',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import '../styles/login.css';
 import * as API from '../api/API';
 import Home from './Home';
 import Signup from './Signup';
@@ -28,41 +28,72 @@ handleLogin = (x) => {
         });
 };
 
+componentWillMount(){
+  this.setState({username:'',password:'',islogged:'false',message:''});
+}
+
 handleLogout = () => {
       console.log('logout called');
-      this.props.history.push("/");
+      //this.setState({islogged: 'false'});
       API.logout()
           .then((status) => {
               if(status === 200){
                   this.setState({
                       islogged: false
-                  });
+                  });console.log('logout called funation---'+this.state.islogged);
+                  this.componentWillMount();
+              }
+              else {
+                console.log('logout called error');
               }
           });
   };
 
-  componentWillMount(){
-    this.setState({username:'',password:'',islogged:'false',message:''});
-  }
+
 
 
   render() {
     return (
-      <div className="container">
-      <h1>Dropbox</h1>
+      <div>
+
+      <div className="btitle col-sm-12">
+      <h1 className="ttile">Dropbox</h1>
+      </div>
+      <br/><br/><br/>
+
       {this.state.islogged==='false' ?
-        (<div>
+        (<div className="container">
+<div className="row">
         <h1>SIGN IN</h1>
         <form>
-        Username: <input type="text" onChange={(event)=>{
-                                      this.setState({username: event.target.value});}}/><br/>
-        Password: <input type="password" onChange={(event)=>{
-                                      this.setState({password: event.target.value});}}/><br/>
-        <button type="button" onClick={() => this.handleLogin(this.state)}>Submit</button><br/>
+        <div className="form-group row">
+        <div className="col-sm-2 col-md-2 col-lg-2">Username:</div>
+         <div className="col-sm-10 col-md-10 col-lg-10"><input type="text" onChange={(event)=>{
+                                      this.setState({username: event.target.value});}}/></div>
+        </div>
+
+        <div className="form-group row">
+        <div className="col-sm-2 col-md-2 col-lg-2">Password:</div>
+        <div className="col-sm-10 col-md-10 col-lg-10"><input type="password" onChange={(event)=>{
+                                      this.setState({password: event.target.value});}}/></div>
+        </div>
+
+        <div className="form-group row">
+        <div className="col-sm-4 col-md-4 col-lg-4">
+        <button type="button" onClick={() => this.handleLogin(this.state)}>Submit</button>
+        </div>
+        </div>
+
+        <div className="form-group row">
+        <div className="col-sm-4 col-md-4 col-lg-4">
         <font color="red">{this.state.message}</font>
-        </form>
+        </div>
+        </div>
+
+        </form>  </div>
         <h1>SIGN UP</h1><Signup /></div>
       ):(<Home un={this.state.user} handleLogout={this.handleLogout} />)}
+
 
       </div>
     );

@@ -6,26 +6,34 @@ import Addfile from './Addfile';
 import Login from './Addfile';
 import Starred from './Starred';
 import Activityreport from './Activityreport';
+import Createfolder from './Createfolder';
 class Home extends Component {
-
+//<div className="col-sm-1 col-md-1 col-lg-1"> <Link to='/activityrep'>Logout</Link></div>
     render() {
-      //console.log("PROPS"+this.props);
         return (
-          <div>
-          <h3>Welcome {this.props.un.firstName}{this.props.un.lastName}</h3>
-<Link to='/'></Link>
-          <Link to='/listall'>List All</Link>
-          <Link to='/addfile'>Add File</Link>
-          <Link to='/starred'>Starred File</Link>
-          <Link to='/activityrep'>Activity Report</Link>
+          <div className="container">
+          <br/>
+
+          <div className="row">
+          <div className="col-sm-2 col-md-2 col-lg-2"><h5>Welcome {this.props.un.firstName} {this.props.un.lastName}</h5></div>
+          <div className="col-sm-1 col-md-1 col-lg-1"> <Link to='/'></Link></div>
+          <div className="col-sm-1 col-md-1 col-lg-1">  <Link to='/listall'>List All</Link></div>
+          <div className="col-sm-1 col-md-1 col-lg-1"><Link to='/addfile'>Upload File</Link></div>
+          <div className="col-sm-1 col-md-1 col-lg-1"><Link to='/createfolder'>Create Folder</Link></div>
+          <div className="col-sm-1 col-md-1 col-lg-1">  <Link to='/starred'>Starred File</Link></div>
+          <div className="col-sm-1 col-md-1 col-lg-1"><Link to='/activityrep'>Activity Report</Link></div>
+          <div className="col-sm-1 col-md-1 col-lg-1"><button onClick={() => this.props.handleLogout()}>Logout</button></div>
+          </div>
 
           <Switch>
-          <Route path="/home" component={Home}/>
-          <Route path="/listall" component={() => <Listall data={this.props.un}/>}/>
-          <Route path="/addfile" component={() => <Addfile data={this.props.un}/>}/>
-          <Route path="/starred" component={() => <Starred data={this.props.un}/>}/>
-          <Route path="/activityrep" component={() => <Activityreport data={this.props.un}/>}/>
-</Switch>
+          <Route exact path="/home" component={Home}/>
+          <Route exact path="/listall" component={() => <Listall data={this.props.un}/>}/>
+          <Route exact path="/addfile" component={() => <Addfile data={this.props.un}/>}/>
+          <Route exact path="/createfolder" component={() => <Createfolder data={this.props.un}/>}/>
+          <Route exact path="/starred" component={() => <Starred data={this.props.un}/>}/>
+          <Route exact path="/activityrep" component={() => <Activityreport data={this.props.un}/>}/>
+          </Switch>
+
          </div>
         );
     }

@@ -7,9 +7,11 @@
   },
   "dependencies": {
     "body-parser": "~1.17.1",
-    "cookie-parser": "~1.4.3",
+    "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
+    "crypto": "^1.0.1",
     "debug": "~2.6.3",
+    "download": "^6.2.5",
     "ejs": "*",
     "express": "^4.15.5",
     "express-error-handler": "^1.1.0",
